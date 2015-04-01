@@ -6,11 +6,12 @@ class TDSE:
 
     #input: an array of size 1xN with the initial position, delta x, delta t, "output
     #file name"
-    def __init__(self, initialPos, delx, delt, outputFile):
+    def __init__(self, initialPos, delx, delt, timesteps, outputFile):
         self.N = len(initialPos)
+        self.timesteps=timesteps
         self.delx = delx
         self.delt = delt
-        self.zeroMatrix = np.zeros([self.N,self.N])
+        self.zeroMatrix = np.zeros([timesteps-1,self.N])
         #saving an N by N zero matrix whose first row is the real part of our
         #initialPos array
         self.matrixReal = np.vstack([initialPos.real,self.zeroMatrix])
@@ -30,10 +31,17 @@ class TDSE:
         print A
         return A
 
+    def energy(self, time)
+        normalization=1/(self.N)
+        E=0
+        for i in range(self.N)
+            EtempUnnormed = (self.matrixReal[time,i]-1j*self.matrixImag[time,i])((self.matrixReal[time -1,i]+1j*self.matrixImag[time-1,i]-2(self.matrixReal[time,i]+1j*self.matrixImag[time,i])+self.matrixReal[time+1,i]+1j*self.matrixImag[time+1,i])/ delx**2 + V[i]*(self.matrixReal[time i]+1j*self.matrixImag[time,i]))
+            E=E+EtempUnnormed*normalization
+        return E
 
 
     def run(self):
-        for n in range(self.N):
+        for n in range(self.timesteps):
             print("start of a time step")
             print(self.matrixReal)
             print(self.matrixImag)
@@ -50,7 +58,10 @@ class TDSE:
             self.matrixImag[n+1,:] = solution.imag
             print(self.matrixReal)
             print(self.matrixImag)
+
+        
             
 
         np.savetxt(self.outputFile + "_Real", self.matrixReal, delimiter=",")
         np.savetxt(self.outputFile + "_Imag", self.matrixImag, delimiter=",")
+
