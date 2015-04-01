@@ -31,13 +31,15 @@ class TDSE:
         print A
         return A
 
-    def energy(self, time)
+    def energy(self)
         normalization=1/(self.N)
-        E=0
-        for i in range(self.N)
-            EtempUnnormed = (self.matrixReal[time,i]-1j*self.matrixImag[time,i])((self.matrixReal[time -1,i]+1j*self.matrixImag[time-1,i]-2(self.matrixReal[time,i]+1j*self.matrixImag[time,i])+self.matrixReal[time+1,i]+1j*self.matrixImag[time+1,i])/ delx**2 + V[i]*(self.matrixReal[time i]+1j*self.matrixImag[time,i]))
-            E=E+EtempUnnormed*normalization
-        return E
+        Elist=[]
+        for time in range(timesteps)
+            for i in range(self.N)
+                EtempUnnormed = (self.matrixReal[time,i]-1j*self.matrixImag[time,i])((self.matrixReal[time -1,i]+1j*self.matrixImag[time-1,i]-2(self.matrixReal[time,i]+1j*self.matrixImag[time,i])+self.matrixReal[time+1,i]+1j*self.matrixImag[time+1,i])/ delx**2 + V[i]*(self.matrixReal[time i]+1j*self.matrixImag[time,i]))
+                E=E+EtempUnnormed*normalization
+            Elist.append(E)
+        return Elist
 
 
     def run(self):
@@ -62,6 +64,6 @@ class TDSE:
         
             
 
-        np.savetxt(self.outputFile + "_Real", self.matrixReal, delimiter=",")
-        np.savetxt(self.outputFile + "_Imag", self.matrixImag, delimiter=",")
+        np.savetxt(self.outputFile + "_Real.csv", self.matrixReal, delimiter=",")
+        np.savetxt(self.outputFile + "_Imag.csv", self.matrixImag, delimiter=",")
 
