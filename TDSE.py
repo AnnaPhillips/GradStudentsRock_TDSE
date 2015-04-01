@@ -32,7 +32,7 @@ class TDSE:
         return A
 
     def energy(self):
-        normalization=1/(self.N)
+        normalization=1./(self.N)
         Elist=[]
         V=np.zeros(self.N)
         for time in range(self.timesteps):
