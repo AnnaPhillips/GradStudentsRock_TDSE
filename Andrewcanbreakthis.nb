@@ -10,16 +10,19 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[      9156,        299]
-NotebookOptionsPosition[      8393,        267]
-NotebookOutlinePosition[      8747,        283]
-CellTagsIndexPosition[      8704,        280]
+NotebookDataLength[      9319,        302]
+NotebookOptionsPosition[      8528,        270]
+NotebookOutlinePosition[      8874,        285]
+CellTagsIndexPosition[      8831,        282]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
+Cell["simple test: what happens if i make a little edit?", "Text",
+ CellChangeTimes->{{3.636896108629014*^9, 3.636896120607529*^9}}],
 
 Cell[CellGroupData[{
+
 Cell["\<\
 Trying a super small grid to understand the finite difference scheme\
 \>", "Section",
@@ -267,8 +270,7 @@ Cell[BoxData[
 },
 WindowSize->{808, 607},
 WindowMargins->{{Automatic, -14}, {Automatic, 0}},
-FrontEndVersion->"10.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (June 27, \
-2014)",
+FrontEndVersion->"10.0 for Microsoft Windows (64-bit) (September 9, 2014)",
 StyleDefinitions->"Default.nb"
 ]
 (* End of Notebook Content *)
@@ -282,24 +284,25 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
+Cell[558, 20, 132, 1, 30, "Text"],
 Cell[CellGroupData[{
-Cell[580, 22, 160, 3, 99, "Section"],
-Cell[743, 27, 84, 1, 30, "Text"],
-Cell[830, 30, 173, 3, 28, "Input"],
-Cell[1006, 35, 728, 18, 80, "Input"],
+Cell[715, 25, 160, 3, 111, "Section"],
+Cell[878, 30, 84, 1, 30, "Text"],
+Cell[965, 33, 173, 3, 31, "Input"],
+Cell[1141, 38, 728, 18, 92, "Input"],
 Cell[CellGroupData[{
-Cell[1759, 57, 4502, 130, 199, "Input"],
-Cell[6264, 189, 802, 24, 86, "Output"]
+Cell[1894, 60, 4502, 130, 232, "Input"],
+Cell[6399, 192, 802, 24, 84, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[7103, 218, 226, 6, 49, "Input"],
-Cell[7332, 226, 90, 2, 48, "Output"]
+Cell[7238, 221, 226, 6, 47, "Input"],
+Cell[7467, 229, 90, 2, 46, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[7459, 233, 226, 6, 49, "Input"],
-Cell[7688, 241, 90, 2, 48, "Output"]
+Cell[7594, 236, 226, 6, 49, "Input"],
+Cell[7823, 244, 90, 2, 48, "Output"]
 }, Open  ]],
-Cell[7793, 246, 584, 18, 49, "Input"]
+Cell[7928, 249, 584, 18, 49, "Input"]
 }, Open  ]]
 }
 ]
