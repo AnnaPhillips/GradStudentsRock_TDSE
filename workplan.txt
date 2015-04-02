@@ -4,16 +4,19 @@ Important Note: Jen will be MIA Thursday-Sunday.
 
 Already done: (Wed 4-1)
 	-basic code (by Jen) running finite difference
-	-added an energy calculation
+	-added an energy calculation (in class)
+	-fix energy function (Andrew-done)
+	-rewrite A matrix to include potential (Anna-DONE)
+	-periodic boundary condition case! A matrix must be rewritten (Anna-Done)
+
 
 To do: 
    -function that defines initial position grid (Andrew) based on a function
    -function that creates potential grid based on list of preset options (Anna, make a class, grid points, and domain length)
    -We need to implement the other scheme (Andrew)
    -Set up output files/folder (Jen)
-   -periodic boundary condition case! A matrix must be rewritten (whoever gets there first)
-   -rewrite A matrix to include potential (Anna)
-   -fix energy function 
+
+
 
 We will meet at 9:30 on Monday to determine what needs visualization and what needs writing
    write the report in mathematica. 
