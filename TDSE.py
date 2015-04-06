@@ -24,9 +24,9 @@ class TDSE:
 
     #Build NxN tridiagonal matrix to represent the lhs of equation.
     def getA(self):
-        a = -2*np.ones(self.N)/self.delx**2-1j*np.ones(self.N)/self.delt
+        a = 2*np.ones(self.N)/self.delx**2-1j*np.ones(self.N)/self.delt
         a_sub = np.ones(self.N)
-        data = [a_sub,a,a_sub]
+        data = [-1*a_sub,a,-1*a_sub]
         diags = [-1,0,1]
         A = sparse.spdiags(data,diags,self.N,self.N)
         print "original A"
@@ -40,9 +40,9 @@ class TDSE:
         A[self.N-1,self.N-2]= 1
         A[self.N-1,self.N-1]=-2/self.delx**2-1j +self.V[self.N-1]
         for i in range(self.N-2):
-            A[i+1,i]=1
-            A[i+1,i+1]=-2/self.delx**2-1j +self.V[i+1]
-            A[i+1,i+2]=1
+            A[i+1,i]=-1
+            A[i+1,i+1]=+2/self.delx**2-1j +self.V[i+1]
+            A[i+1,i+2]=-1
         print "A with V non periodic"
         print A
         return A
@@ -50,9 +50,9 @@ class TDSE:
     def getAwithVperiodic(self):
         A=np.zeros([self.N,self.N],dtype=complex)
         for i in range(self.N):
-            A[i,(i-1) % self.N]=1
-            A[i,i % self.N]=-2/self.delx**2-1j +self.V[i]
-            A[i,(i+1) % self.N]=1
+            A[i,(i-1) % self.N]=-1
+            A[i,i % self.N]=2/self.delx**2-1j +self.V[i]
+            A[i,(i+1) % self.N]=-1
         print "A with V periodic"
         print A
         return A
