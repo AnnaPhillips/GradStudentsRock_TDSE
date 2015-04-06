@@ -6,19 +6,19 @@ class TDSE:
 
     #input: an array of size 1xN with the initial position, potential, delta x, delta t, "output
     #file name"
-    def __init__(self, initialPos, potential , delx, delt, timesteps, outputFile):
-        self.N = len(initialPos)
+    def __init__(self, initWaveFunc, potential , delx, delt, timesteps, outputFile):
+        self.N = len(initWaveFunc)
         self.V=potential
         self.timesteps=timesteps
         self.delx = delx
         self.delt = delt
         self.zeroMatrix = np.zeros([timesteps,self.N])
         #saving an N by N zero matrix whose first row is the real part of our
-        #initialPos array
-        self.matrixReal = np.vstack([initialPos.real,self.zeroMatrix])
+        #initWaveFunc array
+        self.matrixReal = np.vstack([initWaveFunc.real,self.zeroMatrix])
         #saving an N by N zero matrix whose first row is the imaginary part of
-        #our initialPos array (if the array is all real, it will be all zeros)
-        self.matrixImag = np.vstack([initialPos.imag,self.zeroMatrix])
+        #our initWaveFunc array (if the array is all real, it will be all zeros)
+        self.matrixImag = np.vstack([initWaveFunc.imag,self.zeroMatrix])
         self.outputFile = outputFile
 
 
