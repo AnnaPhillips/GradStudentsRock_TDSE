@@ -2,13 +2,12 @@ Our task list & workplan
 
 Important Note: Jen will be MIA Thursday-Sunday.
 
-Already done: (Wed 4-1)
+Already done:
 	-basic code (by Jen) running finite difference
 	-added an energy calculation (in class)
 	-fix energy function (Andrew-done)
 	-rewrite A matrix to include potential (Anna-DONE)
 	-periodic boundary condition case! A matrix must be rewritten (Anna-Done)
-
 
 To do: 
    -function that defines initial position grid (Andrew) based on a function
@@ -16,7 +15,13 @@ To do:
    -We need to implement the other scheme (Andrew)
    -Set up output files/folder (Jen)
 
-
-
-We will meet at 9:30 on Monday to determine what needs visualization and what needs writing
-   write the report in mathematica. 
+What runs will we do?
+     Free particle: periodic (which should look sensible) and non periodic (which won't)
+     Square well (non periodic, force the wave function to be zero )
+     Harmonic oscillator (non periodic)
+     Barrier (non-periodic, grid size large compared to barrier width is needed)
+     	     height = E, height < E, height > E 
+     Triangle (non-periodic)
+     Kronig-Penney crystal (perodic)
+     V=ix in an 2L box (non-periodic)
+     V=ix+x in a 2L box (non-perodic)
