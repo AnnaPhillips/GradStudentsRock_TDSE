@@ -16,22 +16,27 @@ timesteps = timesteps
 #----------------------------------------
 os.makedirs('nonperiodic_noV')
 os.chdir('nonperiodic_noV')
-potential=0
-
+potential = 0
+outputFile = "noV"
+funstuff=TDSE.TDSE(initWaveFunc, potential, delx,
+                   delt, timesteps, outputFile)
+funstuff.runNonPeriodicNoV()
+os.chdir('..')
 
 
 
 #----------------------------------------
 # Non-periodic With V
 #----------------------------------------
-os.makedirs('nonperiodic_V')
-os.chdir('nonperiodic_V')
-potentials = np.array([any potentials])
-for x in potential:
+os.makedirs('nonPeriodic_V')
+os.chdir('nonPeriodic_V')
+potentials = np.array(['Andrews output of different potentials'])
+for x in potentials:
+    potential = x
     dirname = '%.d' % (x)
     os.mkdir(dirname)
     os.chdir(dirname)
-    outputFile = "nonperiodic"
+    outputFile = "nonPeriodic"
     funstuff=TDSE.TDSE(initWaveFunc, potential, delx,
                        delt, timesteps, outputFile)
     funstuff.runNonPeriodicWithV()
@@ -45,9 +50,9 @@ os.chdir('..')
 #----------------------------------------
 os.makedirs('periodic_V')
 os.chdir('periodic_V')
-potential = np.array([any potentials])
-potentials = np.array([any potentials])
+potentials = np.array(['Andrews output of different potentials'])
 for x in potential:
+    potential = x
     dirname = '%.d' % (x)
     os.mkdir(dirname)
     os.chdir(dirname)
