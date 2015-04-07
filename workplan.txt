@@ -4,19 +4,16 @@ Important Note: Jen will be MIA Thursday-Sunday.
 
 Already done:
 	-basic code (by Jen) running finite difference
-	-added an energy calculation (in class)
+	-added an energy calculation (Anna, in class)
 	-fix energy function (Andrew-done)
 	-rewrite A matrix to include potential (Anna-DONE)
 	-periodic boundary condition case! A matrix must be rewritten (Anna-Done)
-	-Write up an eigen-function finder (Anna did while together)
-	-Set up output files/folder (Jen)
-
 
 To do: 
    -function that defines initial position grid (Andrew) based on a function
-   -function that creates potential grid based on list of preset options (Jen will start, make a class, grid points, and domain length)
+   -function that creates potential grid based on list of preset options (Jen and Anna, make a class, grid points, and domain length)
    -We need to implement the other scheme (Andrew)
-
+   -Set up output files/folder (Jen)
 
 What runs will we do?
      Free particle: periodic (which should look sensible) and non periodic (which won't)
@@ -28,4 +25,3 @@ What runs will we do?
      Kronig-Penney crystal (perodic)
      V=ix in an 2L box (non-periodic)
      V=ix+x in a 2L box (non-perodic)
-    
