@@ -15,8 +15,8 @@ def gaussian(x0, k0, var):
 xAR = xMesh(-10., 10., 200) #make sure the bounds are float types
 wave = gaussian(0, 0, 1)
 
-print xAR
-print wave
+#print xAR
+#print wave
 
-plt.scatter(xAR, wave)
-plt.show()
+#plt.scatter(xAR, wave)
+#plt.show()

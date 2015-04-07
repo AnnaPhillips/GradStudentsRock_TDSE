@@ -25,13 +25,13 @@ class TDSE:
 
     def getAnonPeriodic(self):
         A=np.zeros([self.N,self.N],dtype=complex)
-        A[0,0]=-2/self.delx**2-1j +self.V[0]
+        A[0,0]=-2.0/self.delx**2 - 1j + self.V[0]
         A[0,1]=1
         A[self.N-1,self.N-2]= 1
-        A[self.N-1,self.N-1]=-2/self.delx**2-1j +self.V[self.N-1]
+        A[self.N-1,self.N-1]=-2.0/self.delx**2 - 1j + self.V[self.N-1]
         for i in range(self.N-2):
             A[i+1,i]=-1
-            A[i+1,i+1]=+2/self.delx**2-1j +self.V[i+1]
+            A[i+1,i+1]=+2.0/self.delx**2 - 1j + self.V[i+1]
             A[i+1,i+2]=-1
         print "A is non periodic"
         print A
@@ -41,7 +41,7 @@ class TDSE:
         A=np.zeros([self.N,self.N],dtype=complex)
         for i in range(self.N):
             A[i,(i-1) % self.N]=-1
-            A[i,i % self.N]=2/self.delx**2-1j +self.V[i]
+            A[i,i % self.N]=2/self.delx**2 - 1j + self.V[i]
             A[i,(i+1) % self.N]=-1
         print "A is periodic"
         print A
