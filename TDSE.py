@@ -121,8 +121,8 @@ class TDSE:
             A=self.getAperiodic()
         else:
             A=self.getAnonPeriodic()
-        # i don't think that A is what we want here because we include a piece from the RHS time derivative in our definition of A
-        Energies,Evectors=np.linalg.eig(A)
+        Areal=A.real
+        Energies,Evectors=np.linalg.eig(Areal)
         print "energies"
         print Energies
         print "eigenvector"
