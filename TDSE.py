@@ -44,8 +44,8 @@ class TDSE:
             bPrime[i+1,i+1] = -1j/self.delt
             
         print "A is non periodic"
-        print A
-        print bPrime
+        #print A
+        #print bPrime
         return A, bPrime
 
 
@@ -62,8 +62,8 @@ class TDSE:
             bPrime[i,i] = -1j/self.delt
             
         print "A is periodic"
-        print A
-        print bPrime
+        #print A
+        #print bPrime
         return A, bPrime
 
 
@@ -91,8 +91,8 @@ class TDSE:
             bPrime[i+1,(i+2) % self.N] = 1j*self.delt/(2*self.delx**2)
 
         print "A is non periodic"
-        print A
-        print bPrime
+        #print A
+        #print bPrime
         return A, bPrime
 
 
@@ -111,8 +111,8 @@ class TDSE:
             bPrime[i,(i+1) % self.N] = 1j*self.delt/(2*self.delx**2)
             
         print "A is periodic"
-        print A
-        print bPrime
+        #print A
+        #print bPrime
         return A, bPrime
 
 
@@ -121,18 +121,18 @@ class TDSE:
             A=self.getAperiodic()
         else:
             A=self.getAnonPeriodic()
-        Areal=A.real
+        Areal=np.real(A)
         Energies,Evectors=np.linalg.eig(Areal)
         print "energies"
         print Energies
         print "eigenvector"
         print Evectors
-        
+        #print A
 
     def energy(self):
         normalization=1./(self.N)
         Elist=[]
-        V=np.zeros(self.N)
+        V=np.zeros(self.N) #we need to change this to reflect the potentials
         for time in range(self.timesteps):
             E=0
             for i in range(self.N):

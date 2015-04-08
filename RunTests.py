@@ -6,10 +6,8 @@ import potentials
 import create_wave
 
 def makedir(name):
-    #i had to add these 2 lines all over the place to make things run on windows (boooo)
-    if os.name == 'nt':
-        if os.path.isdir(name):
-            shutil.rmtree(name)
+    if os.path.isdir(name):
+        shutil.rmtree(name)
     os.mkdir(name)
     
 
