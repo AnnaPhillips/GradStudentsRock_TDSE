@@ -8,15 +8,23 @@ Already done:
 	-fix energy function (Andrew-done)
 	-rewrite A matrix to include potential (Anna-DONE)
 	-periodic boundary condition case! A matrix must be rewritten (Anna-Done)
-        -We need to implement the other scheme (Andrew)
-        -got free particle example running, but outputs are no good
+	-We need to implement the other scheme (Andrew)
+	-got free particle example running, but outputs are no good
+	-function that defines initial position grid (Andrew) based on a function
+	-Troubleshoot free particle example
+	-check links between existing components so that runs actually work (best done together?)
+	-function that creates potential grid based on list of preset options (Jen and Anna, make a class, grid points, and domain length)
+	-Set up output files/folder (Jen)
+
 
 To do: 
-   -function that defines initial position grid (Andrew) based on a function
-   -function that creates potential grid based on list of preset options (Jen and Anna, make a class, grid points, and domain length)
-   -Set up output files/folder (Jen)
-   -Create links between existing components so that runs actually work (best done together?)
-   -Troubleshoot free particle example
+	-set up rest of potentials
+	-troubleshoot b matrix in new scheme (andrew)
+	-figure out barrier error
+	-comment python code
+	-skeleton report (jen)
+	-visualize!
+
 
 What runs will we do?
      Free particle: periodic (which should look sensible) and non periodic (which won't)

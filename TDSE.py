@@ -163,7 +163,8 @@ class TDSE:
             print(self.matrixImag)
             b = np.zeros(self.N,dtype=complex)
             for k in range(self.N):
-                b[k] = bPrime[n,k]*(self.matrixReal[n,k] + 1j*self.matrixImag[n,k])
+#                b[k] = bPrime[n,k]*(self.matrixReal[n,k] + 1j*self.matrixImag[n,k])
+                b[k] = -1.j/self.delt*(self.matrixReal[n,k] + 1j*self.matrixImag[n,k])
             print("b=")
             print(b)
             solution = np.linalg.solve(A,b)
@@ -174,6 +175,6 @@ class TDSE:
             print(self.matrixImag)
         hopefullythisworks=self.energy()
         print(hopefullythisworks)
-        np.savetxt(self.outputFile + "_RealFiniteDifference.csv", self.matrixReal, delimiter=",")
-        np.savetxt(self.outputFile + "_ImagFiniteDifference.csv", self.matrixImag, delimiter=",")
+        np.savetxt(self.outputFile + "_Real.csv", self.matrixReal, delimiter=",")
+        np.savetxt(self.outputFile + "_Imag.csv", self.matrixImag, delimiter=",")
 

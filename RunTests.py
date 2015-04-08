@@ -4,6 +4,7 @@ import numpy as np
 import TDSE
 import potentials
 import create_wave
+import sys
 
 def makedir(name):
     if os.path.isdir(name):
@@ -17,12 +18,14 @@ os.chdir('Runs')
 
 # set up testing conditions
 initWaveFunc = create_wave.gaussian(0,0,1)
-timesteps = 10
+timesteps = 100
 xMin=-10.0
 xMax=10.0
 gridpoints=200
 delx=(xMax-xMin)/gridpoints
-delt=delx/10
+delt=delx/1.
+outputFilePeriodic = "periodic"
+outputFileNonPeriodic = "nonPeriodic"
 
 
 #----------------------------------------
@@ -33,8 +36,6 @@ os.chdir('freeParticle')
 amplitude = 1
 runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
 potential = runPotential.freeParticle()
-outputFilePeriodic = "free_periodic"
-outputFileNonPeriodic = "free_nonPeriodic"
 #set up and run free particle non-periodic conditions (simple finite difference method)
 funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, True, False, outputFilePeriodic)
 funstuff.run() # run finite difference scheme
@@ -42,14 +43,16 @@ funstuff.run() # run finite difference scheme
 funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, False, False, outputFileNonPeriodic)
 funstuff.run()
 #set up and run free particle non-periodic conditions (Crank-Nicolson scheme)
-funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, True, True, outputFilePeriodic + 'CN')
+funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, True, True, outputFilePeriodic + '_CN')
 funstuff.run() # run finite difference scheme
 #set up and run free particle periodic conditions (Crank-Nicolson scheme)
-funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, False, True, outputFileNonPeriodic + 'CN')
+funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, False, True, outputFileNonPeriodic + '_CN')
 funstuff.run()
 #funstuff.runOS()
 os.chdir('..')
 
+#i'll make this work properly later
+sys.exit(0)
 
 #----------------------------------------
 # Square Well
