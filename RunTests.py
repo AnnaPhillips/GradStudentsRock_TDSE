@@ -84,7 +84,7 @@ runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
 potential = runPotential.triangle()
 outputFile = "triangle"
 #set up and run triangle with non-periodic conditions
-funstuff=TDSE.TDSE(initWaveFunc, potential, timesteps, False, False, outputFile)
+funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, False, False, outputFile)
 funstuff.run() # run finite difference scheme
 #funstuff.runOS() # run other scheme
 os.chdir('..')
@@ -102,13 +102,13 @@ os.chdir('..')
 #----------------------------------------
 # Barrier
 #----------------------------------------
-makedir('Triangle')
-os.chdir('Triangle')
+makedir('Barrier')
+os.chdir('Barrier')
 runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
 potential = runPotential.barrier(20.0) #can set width of barrier
 outputFile = "barrier"
 #set up and run barrier with non-periodic conditions
-funstuff=TDSE.TDSE(initWaveFunc, potential, timesteps, False, False, outputFile)
+funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, False, False, outputFile)
 funstuff.run() # run finite difference scheme
 #funstuff.runOS() # run other scheme
 os.chdir('..')

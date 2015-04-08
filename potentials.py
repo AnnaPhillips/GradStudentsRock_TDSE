@@ -35,14 +35,14 @@ class Potentials:
         list = np.zeros([self.gridpoints+1])
         for i in range(self.gridpoints+1):
             if self.xMesh[i] < (self.xMin/width):
-               list[i] = 0
+                list[i] = 0
             elif self.xMesh[i] > (self.xMax/width):
                 list[i] = 0
             else:
                 list[i] = self.A
-        print list
-        plt.plot(self.xMesh,list)
-        plt.show()
+        #print list
+        #plt.plot(self.xMesh,list)
+        #plt.show()
 
 
     def teeth(self):
@@ -54,6 +54,6 @@ class Potentials:
                 list[i]=self.A
             else:
                 list[i]=0
-        print list
+        #print list
         #plt.plot(self.xMesh,list)
         #plt.show()
