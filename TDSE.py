@@ -6,7 +6,7 @@ class TDSE:
 
     #input: an array of size 1xN with the initial position, potential, delta x, delta t, time steps, periodic, "output
     #file name"
-    def __init__(self, initWaveFunc, potential, delx, delt, timesteps, periodic, outputFile):
+    def __init__(self, initWaveFunc, potential, delx, delt, timesteps, periodic, useCN, outputFile):
         self.N = len(initWaveFunc)
         self.V=potential
         self.timesteps=timesteps
@@ -21,37 +21,107 @@ class TDSE:
         self.matrixImag = np.vstack([initWaveFunc.imag,self.zeroMatrix])
         self.outputFile = outputFile
         self.periodic=periodic
+        self.useCN=useCN
 
 
     def getAnonPeriodic(self):
-        A=np.zeros([self.N,self.N],dtype=complex)
-        A[0,0]=-2.0/self.delx**2 - 1j + self.V[0]
-        A[0,1]=1
-        A[self.N-1,self.N-2]= 1
-        A[self.N-1,self.N-1]=-2.0/self.delx**2 - 1j + self.V[self.N-1]
+        A = np.zeros([self.N,self.N],dtype=complex)
+        bPrime = np.zeros([self.N,self.N],dtype=complex)
+
+        A[0,0] = 2/self.delx**2 - 1j/self.delt + self.V[0]
+        A[0,1] = -1/self.delx**2
+        A[self.N-1,self.N-2] = -1/self.delx**2
+        A[self.N-1,self.N-1] = 2/self.delx**2 - 1j/self.delt + self.V[self.N-1]
+
+        bPrime[0,0] = -1j/self.delt
+        bPrime[self.N-1,self.N-1] = -1j/self.delt
+
         for i in range(self.N-2):
-            A[i+1,i]=-1
-            A[i+1,i+1]=+2.0/self.delx**2 - 1j + self.V[i+1]
-            A[i+1,i+2]=-1
+            A[i+1,i] = -1/self.delx**2
+            A[i+1,i+1] = 2/self.delx**2 - 1j/self.delt + self.V[i+1]
+            A[i+1,i+2] = -1/self.delx**2
+
+            bPrime[i+1,i+1] = -1j/self.delt
+            
         print "A is non periodic"
         print A
-        return A
+        print bPrime
+        return A, bPrime
+
 
     def getAperiodic(self):
-        A=np.zeros([self.N,self.N],dtype=complex)
+        A = np.zeros([self.N,self.N],dtype=complex)
+        bPrime = np.zeros([self.N,self.N],dtype=complex)
+        
         for i in range(self.N):
-            A[i,(i-1) % self.N]=-1
-            A[i,i % self.N]=2/self.delx**2 - 1j + self.V[i]
-            A[i,(i+1) % self.N]=-1
+            #negative array references count backwards, so we only need to mod the last one of these
+            A[i,(i-1)] = -1/self.delx**2
+            A[i,i] = 2/self.delx**2 - 1j/self.delt + self.V[i]
+            A[i,(i+1) % self.N] = -1/self.delx**2
+           
+            bPrime[i,i] = -1j/self.delt
+            
         print "A is periodic"
         print A
-        return A
+        print bPrime
+        return A, bPrime
+
+
+    def getAnonPeriodicCN(self):#CN is for Crank-Nicolson
+        A = np.zeros([self.N,self.N],dtype=complex)
+        bPrime = np.zeros([self.N,self.N],dtype=complex)
+
+        A[0,0] =  1 + 1j*self.delt/2*(2/self.delx**2 + self.V[0])
+        A[0,1] = -1j*self.delt/(2*self.delx**2)
+        A[self.N-1,self.N-2] = -1j*self.delt/(2*self.delx**2)
+        A[self.N-1,self.N-1] =  1 + 1j*self.delt/2*(2/self.delx**2 + self.V[self.N-1])
+
+        bPrime[0,0] =  1 - 1j*self.delt/2*(2/self.delx**2 + self.V[0])
+        bPrime[0,1] = 1j*self.delt/(2*self.delx**2)
+        bPrime[self.N-1,self.N-2] = 1j*self.delt/(2*self.delx**2)
+        bPrime[self.N-1,self.N-1] =  1 - 1j*self.delt/2*(2/self.delx**2 + self.V[self.N-1])
+
+        for i in range(self.N-2):
+            A[i+1,i] = -1j*self.delt/(2*self.delx**2)
+            A[i+1,i+1] =  1 + 1j*self.delt/2*(2/self.delx**2 + self.V[i+1])
+            A[i+1,i+2] = -1j*self.delt/(2*self.delx**2) 
+            
+            bPrime[i+1,i] = 1j*self.delt/(2*self.delx**2)
+            bPrime[i+1,i+1] = 1 - 1j*self.delt/2*(2/self.delx**2 + self.V[i+1])
+            bPrime[i+1,(i+2) % self.N] = 1j*self.delt/(2*self.delx**2)
+
+        print "A is non periodic"
+        print A
+        print bPrime
+        return A, bPrime
+
+
+    def getAperiodicCN(self):#CN is for Crank-Nicolson
+        A = np.zeros([self.N,self.N],dtype=complex)
+        bPrime = np.zeros([self.N,self.N],dtype=complex)
+        
+        for i in range(self.N):
+            #negative array references count backwards, so we only need to mod the last one of these
+            A[i,(i-1)] = -1j*self.delt/(2*self.delx**2)
+            A[i,i] = 1 + 1j*self.delt/2*(2/self.delx**2 + self.V[i])
+            A[i,(i+1) % self.N] = -1j*self.delt/(2*self.delx**2)
+
+            bPrime[i,(i-1)] = 1j*self.delt/(2*self.delx**2)
+            bPrime[i,i] = 1 - 1j*self.delt/2*(2/self.delx**2 + self.V[i])
+            bPrime[i,(i+1) % self.N] = 1j*self.delt/(2*self.delx**2)
+            
+        print "A is periodic"
+        print A
+        print bPrime
+        return A, bPrime
+
 
     def getEigenStates(self):
         if self.periodic:
             A=self.getAperiodic()
         else:
             A=self.getAnonPeriodic()
+        # i don't think that A is what we want here because we include a piece from the RHS time derivative in our definition of A
         Energies,Evectors=np.linalg.eig(A)
         print "energies"
         print Energies
@@ -76,18 +146,24 @@ class TDSE:
 
 
     def run(self):
-        if self.periodic:
-            A=self.getAperiodic()
+        if self.useCN:
+            if self.periodic:
+                A, bPrime = self.getAperiodicCN()
+            else:
+                A, bPrime = self.getAnonPeriodicCN()
         else:
-            A=self.getAnonPeriodic()
+            if self.periodic:
+                A, bPrime = self.getAperiodic()
+            else:
+                A, bPrime = self.getAnonPeriodic()
         self.getEigenStates()
         for n in range(self.timesteps):
             print("start of a time step")
             print(self.matrixReal)
             print(self.matrixImag)
             b = np.zeros(self.N,dtype=complex)
-            for i in range(self.N):
-                b[i] = -1.0/self.delt*(self.matrixImag[n,i]+1j*self.matrixReal[n,i])
+            for k in range(self.N):
+                b[k] = bPrime[n,k]*(self.matrixReal[n,k] + 1j*self.matrixImag[n,k])
             print("b=")
             print(b)
             solution = np.linalg.solve(A,b)

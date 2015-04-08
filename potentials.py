@@ -12,6 +12,12 @@ class Potentials:
         self.xMesh = np.array([self.xMin + i*(self.xMax-self.xMin)/float(self.gridpoints) for i in range(gridpoints+1)])
 
 
+    def freeParticle(self):
+        return self.xMesh*0
+        #plt.plot(self.xMesh,self.xMesh**2)
+        #plt.show()
+
+
     def harmonicOscillator(self):
         return self.xMesh**2
         #plt.plot(self.xMesh,self.xMesh**2)
