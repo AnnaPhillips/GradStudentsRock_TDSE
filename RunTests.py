@@ -109,12 +109,28 @@ makedir('Barrier')
 os.chdir('Barrier')
 runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
 potential = runPotential.barrier(20.0) #can set width of barrier
-outputFile = "barrier"
+outputFile = "nonPeriodic"
 #set up and run barrier with non-periodic conditions
 funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, False, False, outputFile)
 funstuff.run() # run finite difference scheme
 #funstuff.runOS() # run other scheme
 os.chdir('..')
+
+
+#----------------------------------------
+# Teeth
+#----------------------------------------
+makedir('Teeth')
+os.chdir('Teeth')
+runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
+potential = runPotential.teeth()
+outputFile = "periodic"
+#set up and run barrier with non-periodic conditions
+funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, False, False, outputFile)
+funstuff.run() # run finite difference scheme
+#funstuff.runOS() # run other scheme
+os.chdir('..')
+
 
 
 #----------------------------------------
