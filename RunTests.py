@@ -18,10 +18,10 @@ os.chdir('Runs')
 
 # set up testing conditions
 initWaveFunc = create_wave.gaussian(0,0,1)
-timesteps = 100
-xMin=-10.0
-xMax=10.0
-gridpoints=200
+timesteps = 1000
+xMin=-20.0
+xMax=20.0
+gridpoints=400
 delx=(xMax-xMin)/gridpoints
 delt=delx/1.
 outputFilePeriodic = "periodic"

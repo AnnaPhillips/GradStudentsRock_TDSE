@@ -161,10 +161,7 @@ class TDSE:
             print("start of a time step")
             print(self.matrixReal)
             print(self.matrixImag)
-            b = np.zeros(self.N,dtype=complex)
-            for k in range(self.N):
-#                b[k] = bPrime[n,k]*(self.matrixReal[n,k] + 1j*self.matrixImag[n,k])
-                b[k] = -1.j/self.delt*(self.matrixReal[n,k] + 1j*self.matrixImag[n,k])
+            b = np.dot(bPrime, (self.matrixReal[n,:] + 1j*self.matrixImag[n,:]))
             print("b=")
             print(b)
             solution = np.linalg.solve(A,b)

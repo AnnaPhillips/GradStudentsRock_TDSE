@@ -15,11 +15,11 @@ Already done:
 	-check links between existing components so that runs actually work (best done together?)
 	-function that creates potential grid based on list of preset options (Jen and Anna, make a class, grid points, and domain length)
 	-Set up output files/folder (Jen)
+	-troubleshoot b matrix in new scheme (andrew)
 
 
 To do: 
 	-set up rest of potentials
-	-troubleshoot b matrix in new scheme (andrew)
 	-figure out barrier error
 	-comment python code
 	-skeleton report (jen)
