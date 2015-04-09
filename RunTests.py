@@ -81,8 +81,8 @@ os.chdir('..')
 #----------------------------------------
 # Triangle
 #----------------------------------------
-makedir('Triangle')
-os.chdir('Triangle')
+makedir('triangle')
+os.chdir('triangle')
 runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
 potential = runPotential.triangle()
 outputFile = "triangle"
@@ -105,8 +105,8 @@ os.chdir('..')
 #----------------------------------------
 # Barrier
 #----------------------------------------
-makedir('Barrier')
-os.chdir('Barrier')
+makedir('barrier')
+os.chdir('barrier')
 runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
 potential = runPotential.barrier(20.0) #can set width of barrier
 outputFile = "nonPeriodic"
@@ -120,8 +120,8 @@ os.chdir('..')
 #----------------------------------------
 # Teeth
 #----------------------------------------
-makedir('Teeth')
-os.chdir('Teeth')
+makedir('teeth')
+os.chdir('teeth')
 runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
 potential = runPotential.teeth()
 outputFile = "periodic"
