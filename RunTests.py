@@ -1,15 +1,14 @@
 import os
-import shutil
 import numpy as np
 import TDSE
 import potentials
 import create_wave
 import sys
 
+# create function to make a directory only if it does not already exist
 def makedir(name):
-    if os.path.isdir(name):
-        shutil.rmtree(name)
-    os.mkdir(name)
+    if not os.path.isdir(name):
+        os.mkdir(name)
     
 
 # change directory to where the data will be stored
@@ -17,8 +16,11 @@ makedir('Runs')
 os.chdir('Runs')
 
 # set up testing conditions
-initWaveFunc = create_wave.gaussian(0,0,1)
-timesteps = 1000
+waveX0=-5.0
+waveVar=1.0
+waveK0=2.0
+initWaveFunc = create_wave.gaussian(waveX0,waveK0,waveVar)
+timesteps = 200
 xMin=-20.0
 xMax=20.0
 gridpoints=400
@@ -28,15 +30,18 @@ outputFilePeriodic = "periodic"
 outputFileNonPeriodic = "nonPeriodic"
 # set the amplitude for the potential
 amplitude = 1
-
 # set up our potentials generator
 runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
+
+
 
 #----------------------------------------
 # Free Particle
 #----------------------------------------
-makedir('freeParticle')
-os.chdir('freeParticle')
+caseName='freeParticle'
+makedir(caseName)
+os.chdir(caseName)
+print(caseName)
 
 # pull the free particle potential from the potentials generator
 potential = runPotential.freeParticle()
@@ -63,17 +68,27 @@ periodicCN.run()
 
 os.chdir('..')
 
-#i'll make this work properly later
-sys.exit(0)
+# just for now until we want to run all these
+#sys.exit(0)
+
+
 
 #----------------------------------------
 # Square Well
 #----------------------------------------
-makedir('squareWell')
-os.chdir('squareWell')
+caseName='squareWell'
+makedir(caseName)
+os.chdir(caseName)
+print(caseName)
 
+# pull the potential from the potentials generator
+potential = runPotential.squareWell(20.)
 
-#---------------------------------------
+# run non-periodic conditions (Crank-Nicolson scheme)
+nonPeriodicCN = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
+                          False, True, outputFileNonPeriodic + '_CN')
+nonPeriodicCN.run()
+
 os.chdir('..')
 
 
@@ -81,64 +96,101 @@ os.chdir('..')
 #----------------------------------------
 # Harmonic Oscillator
 #----------------------------------------
-makedir('harmonicOscillator')
-os.chdir('harmonicOscillator')
+caseName='harmonicOscillator'
+makedir(caseName)
+os.chdir(caseName)
+print(caseName)
 
+# pull the potential from the potentials generator
+potential = runPotential.harmonicOscillator()
+
+# run non-periodic conditions (Crank-Nicolson scheme)
+nonPeriodicCN = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
+                          False, True, outputFileNonPeriodic + '_CN')
+nonPeriodicCN.run()
 
 os.chdir('..')
+
 
 
 #----------------------------------------
 # Triangle
 #----------------------------------------
-makedir('triangle')
-os.chdir('triangle')
+caseName='triangle'
+makedir(caseName)
+os.chdir(caseName)
+print(caseName)
 
+# pull the potential from the potentials generator
+potential = runPotential.triangle()
+
+# run non-periodic conditions (Crank-Nicolson scheme)
+nonPeriodicCN = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
+                          False, True, outputFileNonPeriodic + '_CN')
+nonPeriodicCN.run()
 
 os.chdir('..')
+
 
 
 #----------------------------------------
 # Kronig-Penney
 #----------------------------------------
-makedir('kronigPenney')
-os.chdir('kronigPenney')
+caseName='kronigPenney'
+makedir(caseName)
+os.chdir(caseName)
+print(caseName)
 
+# pull the potential from the potentials generator
+potential = runPotential.kronigPenney(7.,4.)
 
-os.chdir('..')
-
-
-
-#----------------------------------------
-# Teeth
-#----------------------------------------
-makedir('teeth')
-os.chdir('teeth')
-
+# run periodic conditions (Crank-Nicolson scheme)
+PeriodicCN = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
+                          True, True, outputFilePeriodic + '_CN')
+PeriodicCN.run()
 
 os.chdir('..')
 
 
 
 #----------------------------------------
-# V=ix
+# Imaginary Potential (V=ix)
 #----------------------------------------
-makedir('imag1')
-os.chdir('imag1')
+caseName='imagPotential'
+makedir(caseName)
+os.chdir(caseName)
+print(caseName)
 
+# pull the potential from the potentials generator
+potential = runPotential.imagPotential()
+
+# run non-periodic conditions (Crank-Nicolson scheme)
+nonPeriodicCN = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
+                          False, True, outputFileNonPeriodic + '_CN')
+nonPeriodicCN.run()
 
 os.chdir('..')
 
 
 
 #----------------------------------------
-# v=x+ix
+# Complex Potential (V=x+ix)
 #----------------------------------------
-makedir('imag2')
-os.chdir('imag2')
+caseName='complexPotential'
+makedir(caseName)
+os.chdir(caseName)
+print(caseName)
 
+# pull the potential from the potentials generator
+potential = runPotential.complexPotential()
+
+# run non-periodic conditions (Crank-Nicolson scheme)
+nonPeriodicCN = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
+                          False, True, outputFileNonPeriodic + '_CN')
+nonPeriodicCN.run()
 
 os.chdir('..')
+
 
 
 #----------------------------------------
@@ -146,38 +198,55 @@ os.chdir('..')
 #----------------------------------------
 
 # barrier height=E
-amplitude = 1
-
-makedir('barrier1')
-os.chdir('barrier1')
-
-
-
+caseName='barrier1'
+amplitude = (waveVar**2/(2.*np.pi))**0.25
+makedir(caseName)
+os.chdir(caseName)
+print(caseName)
+# reset potential with new amplitude value
+runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
+# pull the potential from the potentials generator
+potential = runPotential.barrier(20.0) #can set width of barrier
+# run non-periodic conditions (Crank-Nicolson scheme)
+nonPeriodicCN = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
+                          False, True, outputFileNonPeriodic + '_CN')
+nonPeriodicCN.run()
 os.chdir('..')
 
+
 # barrier height<E
-amplitude = 0.5
-
-makedir('barrier3')
-os.chdir('barrier3')
-
-
-
+caseName='barrier2'
+amplitude = amplitude*.5
+makedir(caseName)
+os.chdir(caseName)
+print(caseName)
+# reset potential with new amplitude value
+runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
+# pull the potential from the potentials generator
+potential = runPotential.barrier(20.0) #can set width of barrier
+# run non-periodic conditions (Crank-Nicolson scheme)
+nonPeriodicCN = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
+                          False, True, outputFileNonPeriodic + '_CN')
+nonPeriodicCN.run()
 os.chdir('..')
 
 
 # barrier height>E
-amplitude = 2
-
-makedir('barrier3')
-os.chdir('barrier3')
-
-
-
+caseName='barrier3'
+amplitude = amplitude*3
+makedir(caseName)
+os.chdir(caseName)
+print(caseName)
+# reset potential with new amplitude value
+runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
+# pull the potential from the potentials generator
+potential = runPotential.barrier(20.0) #can set width of barrier
+# run non-periodic conditions (Crank-Nicolson scheme)
+nonPeriodicCN = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
+                          False, True, outputFileNonPeriodic + '_CN')
+nonPeriodicCN.run()
 os.chdir('..')
 
 
-
-
-
+# back out to main folder
 os.chdir('..')

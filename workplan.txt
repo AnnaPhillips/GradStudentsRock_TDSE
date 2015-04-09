@@ -16,14 +16,17 @@ Already done:
 	-function that creates potential grid based on list of preset options (Jen and Anna, make a class, grid points, and domain length)
 	-Set up output files/folder (Jen)
 	-troubleshoot b matrix in new scheme (andrew)
+	-set up rest of potentials
+	-figure out barrier error
 
 
 To do: 
-	-set up rest of potentials
-	-figure out barrier error
 	-comment python code
-	-skeleton report (jen)
-	-visualize!
+	-output potentials to overlay on charts
+	-get rest of visualizations up and running
+	-choose initial wave and potential criteria for certain potentials
+	-write some observations down!
+
 
 
 What runs will we do?
