@@ -24,14 +24,20 @@ class TDSE:
         self.useCN=useCN
 
 
-    def getAnonPeriodic(self):
+    def getAnonPeriodic(self, returnH):
         A = np.zeros([self.N,self.N],dtype=complex)
+        H = np.zeros([self.N,self.N],dtype=complex)
         bPrime = np.zeros([self.N,self.N],dtype=complex)
 
         A[0,0] = 2/self.delx**2 - 1j/self.delt + self.V[0]
         A[0,1] = -1/self.delx**2
         A[self.N-1,self.N-2] = -1/self.delx**2
         A[self.N-1,self.N-1] = 2/self.delx**2 - 1j/self.delt + self.V[self.N-1]
+        
+        H[0,0] = 2/self.delx**2 + self.V[0]
+        H[0,1] = A[0,1]
+        H[self.N-1,self.N-2] = A[self.N-1,self.N-2]
+        H[self.N-1,self.N-1] = 2/self.delx**2 + self.V[self.N-1]        
 
         bPrime[0,0] = -1j/self.delt
         bPrime[self.N-1,self.N-1] = -1j/self.delt
@@ -41,16 +47,24 @@ class TDSE:
             A[i+1,i+1] = 2/self.delx**2 - 1j/self.delt + self.V[i+1]
             A[i+1,i+2] = -1/self.delx**2
 
+            H[i+1,i] = A[i+1,i]
+            H[i+1,i+1] = 2/self.delx**2 - 1j/self.delt + self.V[i+1]
+            H[i+1,i+2] = A[i+1,i+2]
+
             bPrime[i+1,i+1] = -1j/self.delt
             
         print "A is non periodic"
         #print A
         #print bPrime
-        return A, bPrime
+        if returnH:
+            return H
+        else:
+            return A, bPrime
 
 
-    def getAperiodic(self):
+    def getAperiodic(self, returnH):
         A = np.zeros([self.N,self.N],dtype=complex)
+        H = np.zeros([self.N,self.N],dtype=complex)
         bPrime = np.zeros([self.N,self.N],dtype=complex)
         
         for i in range(self.N):
@@ -58,13 +72,20 @@ class TDSE:
             A[i,(i-1)] = -1/self.delx**2
             A[i,i] = 2/self.delx**2 - 1j/self.delt + self.V[i]
             A[i,(i+1) % self.N] = -1/self.delx**2
-           
+
+            H[i,(i-1)] = A[i,(i-1)]
+            H[i,i] = 2/self.delx**2 + self.V[i]
+            H[i,(i+1) % self.N] = A[i,(i+1) % self.N]
+        
             bPrime[i,i] = -1j/self.delt
             
         print "A is periodic"
         #print A
         #print bPrime
-        return A, bPrime
+        if returnH:
+            return H
+        else:
+            return A, bPrime
 
 
     def getAnonPeriodicCN(self):#CN is for Crank-Nicolson
@@ -118,15 +139,14 @@ class TDSE:
 
     def getEigenStates(self):
         if self.periodic:
-            A=self.getAperiodic()
+            H=self.getAperiodic(True)[0] 
         else:
-            A=self.getAnonPeriodic()
-        Areal=np.real(A)
-        Energies,Evectors=np.linalg.eig(Areal)
+            H=self.getAnonPeriodic(True)[0]
+        eValues,eVectors = np.linalg.eig(H)
         print "energies"
-        print Energies
+        print eValues
         print "eigenvector"
-        print Evectors
+        print eVectors
         #print A
 
     def energy(self):
@@ -153,9 +173,9 @@ class TDSE:
                 A, bPrime = self.getAnonPeriodicCN()
         else:
             if self.periodic:
-                A, bPrime = self.getAperiodic()
+                A, bPrime = self.getAperiodic(False)
             else:
-                A, bPrime = self.getAnonPeriodic()
+                A, bPrime = self.getAnonPeriodic(False)
         self.getEigenStates()
         for n in range(self.timesteps):
             print("start of a time step")
