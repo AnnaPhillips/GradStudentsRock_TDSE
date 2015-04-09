@@ -139,15 +139,16 @@ class TDSE:
 
     def getEigenStates(self):
         if self.periodic:
-            H=self.getAperiodic(True)[0] 
+            H=self.getAperiodic(True)#[0]
         else:
-            H=self.getAnonPeriodic(True)[0]
-        eValues,eVectors = np.linalg.eig(H)
-        print "energies"
-        print eValues
-        print "eigenvector"
-        print eVectors
-        #print A
+            H=self.getAnonPeriodic(True)#[0]
+        eValues, eVectors = np.linalg.eig(H)
+        #print "energies"
+        #print eValues
+        #print "eigenvector"
+        #print eVectors
+        return eValues, eVectors
+        
 
     def energy(self):
         normalization=1./(self.N)
@@ -176,22 +177,30 @@ class TDSE:
                 A, bPrime = self.getAperiodic(False)
             else:
                 A, bPrime = self.getAnonPeriodic(False)
-        self.getEigenStates()
+        eigenStates = self.getEigenStates()
+        eigenValues = eigenStates[0]
+        eigenVectors = eigenStates[1]
+        eigenValuesRe = eigenValues.real
+        eigenValuesImag = eigenValues.imag
+        eigenVectorsRe = eigenVectors.real
+        eigenVectorsImag = eigenVectors.imag
         for n in range(self.timesteps):
-            print("start of a time step")
-            print(self.matrixReal)
-            print(self.matrixImag)
+            #print("start of a time step")
+            #print(self.matrixReal)
+            #print(self.matrixImag)
             b = np.dot(bPrime, (self.matrixReal[n,:] + 1j*self.matrixImag[n,:]))
-            print("b=")
-            print(b)
+            #print("b=")
+            #print(b)
             solution = np.linalg.solve(A,b)
-            print(solution)
+            #print(solution)
             self.matrixReal[n+1,:] = solution.real
             self.matrixImag[n+1,:] = solution.imag
-            print(self.matrixReal)
-            print(self.matrixImag)
-        hopefullythisworks=self.energy()
-        print(hopefullythisworks)
+        #print(self.matrixReal)
+        #print(self.matrixImag)
+        #hopefullythisworks=self.energy()
         np.savetxt(self.outputFile + "_Real.csv", self.matrixReal, delimiter=",")
         np.savetxt(self.outputFile + "_Imag.csv", self.matrixImag, delimiter=",")
-
+        np.savetxt(self.outputFile + "_Real_eVectors.csv", eigenVectorsRe, delimiter=",")
+        np.savetxt(self.outputFile + "_Real_eValues.csv", eigenValuesRe, delimiter=",")
+        np.savetxt(self.outputFile + "_Imag_eVectors.csv", eigenVectorsImag, delimiter=",")
+        np.savetxt(self.outputFile + "_Imag_eValues.csv", eigenValuesImag, delimiter=",")

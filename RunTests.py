@@ -26,28 +26,41 @@ delx=(xMax-xMin)/gridpoints
 delt=delx/1.
 outputFilePeriodic = "periodic"
 outputFileNonPeriodic = "nonPeriodic"
+# set the amplitude for the potential
+amplitude = 1
 
+# set up our potentials generator
+runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
 
 #----------------------------------------
 # Free Particle
 #----------------------------------------
 makedir('freeParticle')
 os.chdir('freeParticle')
-amplitude = 1
-runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
+
+# pull the free particle potential from the potentials generator
 potential = runPotential.freeParticle()
-#set up and run free particle non-periodic conditions (simple finite difference method)
-funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, True, False, outputFilePeriodic)
-funstuff.run() # run finite difference scheme
-#set up and run free particle periodic conditions (simple finite difference method)
-funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, False, False, outputFileNonPeriodic)
-funstuff.run()
-#set up and run free particle non-periodic conditions (Crank-Nicolson scheme)
-funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, True, True, outputFilePeriodic + '_CN')
-funstuff.run() # run finite difference scheme
-#set up and run free particle periodic conditions (Crank-Nicolson scheme)
-funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, False, True, outputFileNonPeriodic + '_CN')
-funstuff.run()
+
+# run free particle non-periodic conditions (simple finite difference method)
+nonPeriodicSFD = TDSE.TDSE(initWaveFunc, potential, delx, delt,timesteps,
+                           False, False, outputFileNonPeriodic + '_SFD')
+nonPeriodicSFD.run()
+
+# run free particle periodic conditions (simple finite difference method)
+periodicSFD = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
+                        True, False, outputFilePeriodic + '_SFD')
+periodicSFD.run()
+
+# run free particle non-periodic conditions (Crank-Nicolson scheme)
+nonPeriodicCN = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
+                          False, True, outputFileNonPeriodic + '_CN')
+nonPeriodicCN.run()
+
+# run free particle periodic conditions (Crank-Nicolson scheme)
+periodicCN = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
+                       True, True, outputFilePeriodic + '_CN')
+periodicCN.run()
+
 os.chdir('..')
 
 #i'll make this work properly later
@@ -58,25 +71,10 @@ sys.exit(0)
 #----------------------------------------
 makedir('squareWell')
 os.chdir('squareWell')
-amplitude = 1
 
----------------------------------------
-runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
-potential = runPotential.freeParticle()
-#set up and run free particle non-periodic conditions (simple finite difference method)
-funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, True, False, outputFilePeriodic)
-funstuff.run() # run finite difference scheme
-#set up and run free particle periodic conditions (simple finite difference method)
-funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, False, False, outputFileNonPeriodic)
-funstuff.run()
-#set up and run free particle non-periodic conditions (Crank-Nicolson scheme)
-funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, True, True, outputFilePeriodic + '_CN')
-funstuff.run() # run finite difference scheme
-#set up and run free particle periodic conditions (Crank-Nicolson scheme)
-funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, False, True, outputFileNonPeriodic + '_CN')
-funstuff.run()
+
+#---------------------------------------
 os.chdir('..')
-
 
 
 
@@ -85,16 +83,9 @@ os.chdir('..')
 #----------------------------------------
 makedir('harmonicOscillator')
 os.chdir('harmonicOscillator')
-amplitude = 1
-runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
-potential = runPotential.harmonicOscillator()
-outputFile = "harmonicOscillator"
-#set up and run harmonic oscillator with non-periodic conditions
-funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, False, False, outputFile)
-funstuff.run() # run finite difference scheme
-#funstuff.runOS() # run other scheme
-os.chdir('..')
 
+
+os.chdir('..')
 
 
 #----------------------------------------
@@ -102,38 +93,20 @@ os.chdir('..')
 #----------------------------------------
 makedir('triangle')
 os.chdir('triangle')
-runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
-potential = runPotential.triangle()
-outputFile = "triangle"
-#set up and run triangle with non-periodic conditions
-funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, False, False, outputFile)
-funstuff.run() # run finite difference scheme
-#funstuff.runOS() # run other scheme
-os.chdir('..')
 
+
+os.chdir('..')
 
 
 #----------------------------------------
 # Kronig-Penney
 #----------------------------------------
+makedir('kronigPenney')
+os.chdir('kronigPenney')
 
 
-
-
-
-#----------------------------------------
-# Barrier
-#----------------------------------------
-makedir('barrier')
-os.chdir('barrier')
-runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
-potential = runPotential.barrier(20.0) #can set width of barrier
-outputFile = "nonPeriodic"
-#set up and run barrier with non-periodic conditions
-funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, False, False, outputFile)
-funstuff.run() # run finite difference scheme
-#funstuff.runOS() # run other scheme
 os.chdir('..')
+
 
 
 #----------------------------------------
@@ -141,13 +114,8 @@ os.chdir('..')
 #----------------------------------------
 makedir('teeth')
 os.chdir('teeth')
-runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
-potential = runPotential.teeth()
-outputFile = "periodic"
-#set up and run barrier with non-periodic conditions
-funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, False, False, outputFile)
-funstuff.run() # run finite difference scheme
-#funstuff.runOS() # run other scheme
+
+
 os.chdir('..')
 
 
@@ -155,13 +123,58 @@ os.chdir('..')
 #----------------------------------------
 # V=ix
 #----------------------------------------
+makedir('imag1')
+os.chdir('imag1')
 
+
+os.chdir('..')
 
 
 
 #----------------------------------------
 # v=x+ix
 #----------------------------------------
+makedir('imag2')
+os.chdir('imag2')
+
+
+os.chdir('..')
+
+
+#----------------------------------------
+# Barrier * I moved this last because we want to set different amplitudes and I had a global amplitude set at the beginning
+#----------------------------------------
+
+# barrier height=E
+amplitude = 1
+
+makedir('barrier1')
+os.chdir('barrier1')
+
+
+
+os.chdir('..')
+
+# barrier height<E
+amplitude = 0.5
+
+makedir('barrier3')
+os.chdir('barrier3')
+
+
+
+os.chdir('..')
+
+
+# barrier height>E
+amplitude = 2
+
+makedir('barrier3')
+os.chdir('barrier3')
+
+
+
+os.chdir('..')
 
 
 
