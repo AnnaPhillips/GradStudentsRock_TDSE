@@ -48,7 +48,6 @@ funstuff.run() # run finite difference scheme
 #set up and run free particle periodic conditions (Crank-Nicolson scheme)
 funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, False, True, outputFileNonPeriodic + '_CN')
 funstuff.run()
-#funstuff.runOS()
 os.chdir('..')
 
 #i'll make this work properly later
@@ -57,6 +56,26 @@ sys.exit(0)
 #----------------------------------------
 # Square Well
 #----------------------------------------
+makedir('squareWell')
+os.chdir('squareWell')
+amplitude = 1
+
+---------------------------------------
+runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
+potential = runPotential.freeParticle()
+#set up and run free particle non-periodic conditions (simple finite difference method)
+funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, True, False, outputFilePeriodic)
+funstuff.run() # run finite difference scheme
+#set up and run free particle periodic conditions (simple finite difference method)
+funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, False, False, outputFileNonPeriodic)
+funstuff.run()
+#set up and run free particle non-periodic conditions (Crank-Nicolson scheme)
+funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, True, True, outputFilePeriodic + '_CN')
+funstuff.run() # run finite difference scheme
+#set up and run free particle periodic conditions (Crank-Nicolson scheme)
+funstuff=TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps, False, True, outputFileNonPeriodic + '_CN')
+funstuff.run()
+os.chdir('..')
 
 
 
