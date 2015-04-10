@@ -18,14 +18,19 @@ Already done:
 	-troubleshoot b matrix in new scheme (andrew)
 	-set up rest of potentials
 	-figure out barrier error
+	-output potentials to overlay on charts (anna)
+	-get rest of visualizations up and running (anna)
+
 
 
 To do: 
-	-comment python code
-	-output potentials to overlay on charts
-	-get rest of visualizations up and running
+	-comment python code (Anna has done some, a bit more is needed)
 	-choose initial wave and potential criteria for certain potentials
 	-write some observations down!
+	-figure out errors with barriers and triangle potential (the
+	results aren't quite right!)
+	-Add a way to start the program with an eigenstate. Run on HO,
+	SQ, and two complex potentials. 
 
 
 
