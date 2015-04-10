@@ -16,22 +16,18 @@ makedir('Runs')
 os.chdir('Runs')
 
 # set up testing conditions
-waveX0=-5.0
-waveVar=1.0
-waveK0=2.0
-initWaveFunc = create_wave.gaussian(waveX0,waveK0,waveVar)
 timesteps = 200
 xMin=-20.0
 xMax=20.0
-gridpoints=400
+gridpoints=200
+xAR = create_wave.xMesh(xMin, xMax, gridpoints)
 delx=(xMax-xMin)/gridpoints
 delt=delx/1.
 outputFilePeriodic = "periodic"
 outputFileNonPeriodic = "nonPeriodic"
-# set the amplitude for the potential
-amplitude = 1
+
 # set up our potentials generator
-runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
+runPotential = potentials.Potentials(xMin, xMax, gridpoints,xAR)
 
 
 
@@ -42,6 +38,11 @@ caseName='freeParticle'
 makedir(caseName)
 os.chdir(caseName)
 print(caseName)
+
+waveX0=-5.0
+waveVar=1.0
+waveK0=2.0
+initWaveFunc = create_wave.gaussian(waveX0,waveK0,waveVar,xAR)
 
 # pull the free particle potential from the potentials generator
 potential = runPotential.freeParticle()
@@ -81,8 +82,12 @@ makedir(caseName)
 os.chdir(caseName)
 print(caseName)
 
+waveX0=0.1
+waveVar=1.0
+waveK0=2.0
+initWaveFunc = create_wave.gaussian(waveX0,waveK0,waveVar,xAR)
 # pull the potential from the potentials generator
-potential = runPotential.squareWell(20.)
+potential = runPotential.squareWell(20.,100.)
 
 # run non-periodic conditions (Crank-Nicolson scheme)
 nonPeriodicCN = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
@@ -101,8 +106,14 @@ makedir(caseName)
 os.chdir(caseName)
 print(caseName)
 
+waveX0=0.1
+waveVar=1.0
+waveK0=2.0
+initWaveFunc = create_wave.gaussian(waveX0,waveK0,waveVar,xAR)
 # pull the potential from the potentials generator
-potential = runPotential.harmonicOscillator()
+
+# pull the potential from the potentials generator
+potential = runPotential.harmonicOscillator(.05)
 
 # run non-periodic conditions (Crank-Nicolson scheme)
 nonPeriodicCN = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
@@ -121,8 +132,13 @@ makedir(caseName)
 os.chdir(caseName)
 print(caseName)
 
+waveX0=0.1
+waveVar=1.0
+waveK0=2.0
+initWaveFunc = create_wave.gaussian(waveX0,waveK0,waveVar,xAR)
+
 # pull the potential from the potentials generator
-potential = runPotential.triangle()
+potential = runPotential.triangle(.1)
 
 # run non-periodic conditions (Crank-Nicolson scheme)
 nonPeriodicCN = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
@@ -141,8 +157,13 @@ makedir(caseName)
 os.chdir(caseName)
 print(caseName)
 
+waveX0=-5.0
+waveVar=1.0
+waveK0=2.0
+initWaveFunc = create_wave.gaussian(waveX0,waveK0,waveVar,xAR)
+
 # pull the potential from the potentials generator
-potential = runPotential.kronigPenney(7.,4.)
+potential = runPotential.kronigPenney(7.,4.,.25)
 
 # run periodic conditions (Crank-Nicolson scheme)
 PeriodicCN = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
@@ -161,8 +182,14 @@ makedir(caseName)
 os.chdir(caseName)
 print(caseName)
 
+
+waveX0=5.0
+waveVar=1.0
+waveK0=2.0
+initWaveFunc = create_wave.gaussian(waveX0,waveK0,waveVar,xAR)
+
 # pull the potential from the potentials generator
-potential = runPotential.imagPotential()
+potential = runPotential.imagPotential(.05)
 
 # run non-periodic conditions (Crank-Nicolson scheme)
 nonPeriodicCN = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
@@ -181,8 +208,13 @@ makedir(caseName)
 os.chdir(caseName)
 print(caseName)
 
+waveX0=-5.0
+waveVar=1.0
+waveK0=2.0
+initWaveFunc = create_wave.gaussian(waveX0,waveK0,waveVar,xAR)
+
 # pull the potential from the potentials generator
-potential = runPotential.complexPotential()
+potential = runPotential.complexPotential(.05)
 
 # run non-periodic conditions (Crank-Nicolson scheme)
 nonPeriodicCN = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
@@ -194,19 +226,23 @@ os.chdir('..')
 
 
 #----------------------------------------
-# Barrier * I moved this last because we want to set different amplitudes and I had a global amplitude set at the beginning
+#Barriers
 #----------------------------------------
 
 # barrier height=E
+
+waveX0=-15.0
+waveVar=1.0
+waveK0=2.0
+initWaveFunc = create_wave.gaussian(waveX0,waveK0,waveVar,xAR)
 caseName='barrier1'
 amplitude = (waveVar**2/(2.*np.pi))**0.25
 makedir(caseName)
 os.chdir(caseName)
 print(caseName)
-# reset potential with new amplitude value
-runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
+
 # pull the potential from the potentials generator
-potential = runPotential.barrier(20.0) #can set width of barrier
+potential = runPotential.barrier(5.0,amplitude) #can set width of barrier
 # run non-periodic conditions (Crank-Nicolson scheme)
 nonPeriodicCN = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
                           False, True, outputFileNonPeriodic + '_CN')
@@ -220,10 +256,9 @@ amplitude = amplitude*.5
 makedir(caseName)
 os.chdir(caseName)
 print(caseName)
-# reset potential with new amplitude value
-runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
+
 # pull the potential from the potentials generator
-potential = runPotential.barrier(20.0) #can set width of barrier
+potential = runPotential.barrier(5.0, amplitude) #can set width of barrier
 # run non-periodic conditions (Crank-Nicolson scheme)
 nonPeriodicCN = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
                           False, True, outputFileNonPeriodic + '_CN')
@@ -237,10 +272,8 @@ amplitude = amplitude*3
 makedir(caseName)
 os.chdir(caseName)
 print(caseName)
-# reset potential with new amplitude value
-runPotential = potentials.Potentials(xMin, xMax, gridpoints, amplitude)
 # pull the potential from the potentials generator
-potential = runPotential.barrier(20.0) #can set width of barrier
+potential = runPotential.barrier(5.0,amplitude) #can set width of barrier
 # run non-periodic conditions (Crank-Nicolson scheme)
 nonPeriodicCN = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
                           False, True, outputFileNonPeriodic + '_CN')
