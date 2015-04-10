@@ -3,6 +3,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+#This file creates a real gaussian wave packet and defines the xMesh function that potentials.py calls on. 
 
 def xMesh(xMin, xMax, gridpoints):
     return np.array([xMin + i*(xMax-xMin)/gridpoints for i in range(gridpoints+1)])
