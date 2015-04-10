@@ -198,6 +198,7 @@ class TDSE:
         Energy=self.energy()
         #print(self.matrixReal)
         #print(self.matrixImag)
+        np.savetxt(self.outputFile + "_Potential.csv", self.V, delimiter=",")
         np.savetxt(self.outputFile + "_Energy.csv", Energy, delimiter=",")
         np.savetxt(self.outputFile + "_Real.csv", self.matrixReal, delimiter=",")
         np.savetxt(self.outputFile + "_Imag.csv", self.matrixImag, delimiter=",")
