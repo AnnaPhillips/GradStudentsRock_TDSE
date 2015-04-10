@@ -1,6 +1,8 @@
 #! /usr/bin/python
 import numpy as np
 
+#This file creates all of the operations we need to use for both of our solving schemes. 
+
 class TDSE:
 
     #input: an array of size 1xN with the initial position, potential, delta x, delta t, time steps, periodic, "output
@@ -152,14 +154,13 @@ class TDSE:
     def energy(self):
         normalization=1./(self.N)
         Elist=[]
-        V=np.zeros(self.N) #we need to change this to reflect the potentials
         for time in range(self.timesteps):
             E=0
             for i in range(self.N):
                 EtempUnnormed = (self.matrixReal[time,i]-1j*self.matrixImag[time,i]
                                  )*(-0.5*(self.matrixReal[time -1,i]+1j*self.matrixImag[time-1,i]-2*(self.matrixReal[time,i]
                                     +1j*self.matrixImag[time,i])+self.matrixReal[time+1,i]+1j*self.matrixImag[time+1,i])/ float(self.delx**2)
-                                    + V[i]*(self.matrixReal[time, i]+1j*self.matrixImag[time,i]))
+                                    + self.V[i]*(self.matrixReal[time, i]+1j*self.matrixImag[time,i]))
                 E=E+EtempUnnormed*normalization
             Elist.append(E)
         return Elist
@@ -194,9 +195,10 @@ class TDSE:
             #print(solution)
             self.matrixReal[n+1,:] = solution.real
             self.matrixImag[n+1,:] = solution.imag
+        Energy=self.energy()
         #print(self.matrixReal)
         #print(self.matrixImag)
-        #hopefullythisworks=self.energy()
+        np.savetxt(self.outputFile + "_Energy.csv", Energy, delimiter=",")
         np.savetxt(self.outputFile + "_Real.csv", self.matrixReal, delimiter=",")
         np.savetxt(self.outputFile + "_Imag.csv", self.matrixImag, delimiter=",")
         np.savetxt(self.outputFile + "_Real_eVectors.csv", eigenVectorsRe, delimiter=",")
