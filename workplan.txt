@@ -9,26 +9,25 @@ Already done:
 	-rewrite A matrix to include potential (Anna-DONE)
 	-periodic boundary condition case! A matrix must be rewritten (Anna-Done)
 	-We need to implement the other scheme (Andrew)
-	-got free particle example running, but outputs are no good
+	-got free particle example running, but outputs are no good 
 	-function that defines initial position grid (Andrew) based on a function
 	-Troubleshoot free particle example
 	-check links between existing components so that runs actually work (best done together?)
-	-function that creates potential grid based on list of preset options (Jen and Anna, make a class, grid points, and domain length)
+	-function that creates potential grid based on list of preset options (Jen)
 	-Set up output files/folder (Jen)
+	-code that runs everything (Jen)
 	-troubleshoot b matrix in new scheme (andrew)
 	-set up rest of potentials
 	-figure out barrier error
 	-output potentials to overlay on charts (anna)
 	-get rest of visualizations up and running (anna)
 	-analytical solution to square well was added (anna)
-
+	-analytical solution to harmonic oscilator (anna)
+	-comment python code (Anna)
 
 
 To do: 
-	-comment python code (Anna has done some, a bit more is needed)
-	-write some observations down!
-	-Add a way to start the program with an eigenstate. Run on HO,
-	SQ, and two complex potentials. Maybe solve analytically first?
+       -readme file
 	-fix eigenstate solver (HARD)
 
 
