@@ -152,16 +152,15 @@ class TDSE:
         
 
     def energy(self):
-        normalization=1./(self.N)
         Elist=[]
         for time in range(self.timesteps):
             E=0
             for i in range(self.N):
-                EtempUnnormed = (self.matrixReal[time,i]-1j*self.matrixImag[time,i]
+                Etemp = (self.matrixReal[time,i]-1j*self.matrixImag[time,i]
                                  )*(-0.5*(self.matrixReal[time -1,i]+1j*self.matrixImag[time-1,i]-2*(self.matrixReal[time,i]
                                     +1j*self.matrixImag[time,i])+self.matrixReal[time+1,i]+1j*self.matrixImag[time+1,i])/ float(self.delx**2)
                                     + self.V[i]*(self.matrixReal[time, i]+1j*self.matrixImag[time,i]))
-                E=E+EtempUnnormed*normalization
+                E=E+Etemp
             Elist.append(E)
         return Elist
 
