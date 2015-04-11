@@ -5,6 +5,8 @@ import potentials
 import create_wave
 import sys
 
+#This file is what should be run to run the code. It runs our different cases one by one. 
+
 # create function to make a directory only if it does not already exist
 def makedir(name):
     if not os.path.isdir(name):
@@ -16,13 +18,13 @@ makedir('Runs')
 os.chdir('Runs')
 
 # set up testing conditions
-timesteps = 200
+timesteps = 800
 xMin=-20.0
 xMax=20.0
-gridpoints=200
+gridpoints=800
 xAR = create_wave.xMesh(xMin, xMax, gridpoints)
 delx=(xMax-xMin)/gridpoints
-delt=delx/1.
+delt=delx/4.
 outputFilePeriodic = "periodic"
 outputFileNonPeriodic = "nonPeriodic"
 
@@ -98,19 +100,20 @@ os.chdir('..')
 
 
 #----------------------------------------
-# Square Well with initial wave packet
+# Square Well with an eigenstate
 #----------------------------------------
 caseName='squareWellwithEigenState'
 makedir(caseName)
 os.chdir(caseName)
 print(caseName)
 
-harmonic=1.
-barWidth=20.
+harmonic=1. #Pick higher energy eigenstates if you want!
+barWidth=20. #Our well will be 20 across. It needs to be a float. 
 
 initWaveFunc = create_wave.cosine(harmonic,xAR,barWidth)
 # pull the potential from the potentials generator
 potential = runPotential.squareWell(barWidth,1000.)
+#Basically, this is a semi-fininite well. The barriers are 1000 units high. Our initial wave functions all have intitial energies on the order of 1 to 10. 
 
 # run non-periodic conditions (Crank-Nicolson scheme)
 nonPeriodicCN = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
@@ -121,7 +124,7 @@ os.chdir('..')
 
 
 #----------------------------------------
-# Harmonic Oscillator
+# Harmonic Oscillator with wave packet. 
 #----------------------------------------
 caseName='harmonicOscillator'
 makedir(caseName)
@@ -131,11 +134,40 @@ print(caseName)
 waveX0=0.1
 waveVar=1.0
 waveK0=2.0
+amp=2.0
 initWaveFunc = create_wave.gaussian(waveX0,waveK0,waveVar,xAR)
-# pull the potential from the potentials generator
+# pull the initial wave function from create_wave
 
 # pull the potential from the potentials generator
-potential = runPotential.harmonicOscillator(2.)
+potential = runPotential.harmonicOscillator(amp)
+
+# run non-periodic conditions (Crank-Nicolson scheme)
+nonPeriodicCN = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
+                          False, True, outputFileNonPeriodic + '_CN')
+nonPeriodicCN.run()
+
+os.chdir('..')
+
+
+
+
+#----------------------------------------
+# Harmonic Oscillator with lowest energy state
+#----------------------------------------
+caseName='harmonicOscillatorEigenState'
+makedir(caseName)
+os.chdir(caseName)
+print(caseName)
+
+waveX0=0.1
+waveVar=1.0
+waveK0=2.0
+amp=2.0
+initWaveFunc = create_wave.expo(amp, xAR)
+# pull the initial wave function from create_wave
+
+# pull the potential from the potentials generator
+potential = runPotential.harmonicOscillator(amp)
 
 # run non-periodic conditions (Crank-Nicolson scheme)
 nonPeriodicCN = TDSE.TDSE(initWaveFunc, potential, delx, delt, timesteps,
@@ -250,6 +282,16 @@ os.chdir('..')
 #----------------------------------------
 #Barriers
 #----------------------------------------
+
+#We need to have a larger domain for the barriers
+
+timesteps = 800
+xMin=-60.0
+xMax=60.0
+gridpoints=800
+xAR = create_wave.xMesh(xMin, xMax, gridpoints)
+delx=(xMax-xMin)/gridpoints
+delt=delx/4.
 
 # barrier height=E
 
