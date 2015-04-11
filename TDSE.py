@@ -25,6 +25,8 @@ class TDSE:
         self.useCN=useCN
 
 
+
+#This defines the matrices that we'll use to implement our scheme. In our scheme, we solve Ax=b for the vector x. A then is all terms involving Psi(n+1), leaving psi(n) terms in b (which is also defined here). H is the hamiltonian, which is similar to A but lacks the time derivative. 
     def getAnonPeriodic(self, returnH):
         A = np.zeros([self.N,self.N],dtype=complex)
         H = np.zeros([self.N,self.N],dtype=complex)
@@ -54,7 +56,7 @@ class TDSE:
 
             bPrime[i+1,i+1] = -1j/self.delt
             
-        print "A is non periodic"
+        #print "A is non periodic"
         #print A
         #print bPrime
         if returnH:
@@ -63,6 +65,8 @@ class TDSE:
             return A, bPrime
 
 
+
+#This defines a new A that has periodic boundary conditions.         
     def getAperiodic(self, returnH):
         A = np.zeros([self.N,self.N],dtype=complex)
         H = np.zeros([self.N,self.N],dtype=complex)
@@ -80,7 +84,7 @@ class TDSE:
         
             bPrime[i,i] = -1j/self.delt
             
-        print "A is periodic"
+        #print "A is periodic"
         #print A
         #print bPrime
         if returnH:
@@ -88,7 +92,7 @@ class TDSE:
         else:
             return A, bPrime
 
-
+#This defines our matrices for our next scheme. In Crank-Nicolson, we sove Ax=B, where B is a matrix. 
     def getAnonPeriodicCN(self):#CN is for Crank-Nicolson
         A = np.zeros([self.N,self.N],dtype=complex)
         bPrime = np.zeros([self.N,self.N],dtype=complex)
@@ -117,7 +121,7 @@ class TDSE:
         #print bPrime
         return A, bPrime
 
-
+#This is the same as above, except it uses periodic boundary conditions. 
     def getAperiodicCN(self):#CN is for Crank-Nicolson
         A = np.zeros([self.N,self.N],dtype=complex)
         bPrime = np.zeros([self.N,self.N],dtype=complex)
@@ -137,7 +141,7 @@ class TDSE:
         #print bPrime
         return A, bPrime
 
-
+#This pulls on the regular getA functions to get the Hamiltonian matrix and solves for eigenvalues and eigenvectors. 
     def getEigenStates(self):
         if self.periodic:
             H=self.getAperiodic(True)#[0]
@@ -150,7 +154,7 @@ class TDSE:
         #print eVectors
         return eValues, eVectors
         
-
+#This creates a list of the energy over time. It computes  <psi*|H| psi>
     def energy(self):
         Elist=[]
         for time in range(self.timesteps):
@@ -164,7 +168,7 @@ class TDSE:
             Elist.append(E)
         return Elist
 
-
+#This is what actually runs our program! First, it tests which condition is true. Then it stores eigvenvalues and vectors. Next, it solves the linear equation and then computes the energy. Finally, outputs are written to files.  
     def run(self):
         if self.useCN:
             if self.periodic:
