@@ -20,17 +20,16 @@ Already done:
 	-figure out barrier error
 	-output potentials to overlay on charts (anna)
 	-get rest of visualizations up and running (anna)
+	-analytical solution to square well was added (anna)
 
 
 
 To do: 
 	-comment python code (Anna has done some, a bit more is needed)
-	-choose initial wave and potential criteria for certain potentials
 	-write some observations down!
-	-figure out errors with barriers and triangle potential (the
-	results aren't quite right!)
 	-Add a way to start the program with an eigenstate. Run on HO,
-	SQ, and two complex potentials. 
+	SQ, and two complex potentials. Maybe solve analytically first?
+	-fix eigenstate solver (HARD)
 
 
 
