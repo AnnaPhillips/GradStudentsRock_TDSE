@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-#This file creates arrays for each type of potential we might want to use. We call on these in our RunTests.py file and the results get pushed through the calculations done by TDSE.py. 
+#This file creates arrays for each type of potential we might want to use. We call on these in our RunTests.py file and the results get pushed through the calculations done by TDSE.py. Testing code for each is commented out. 
 
 class Potentials:
     #The inputs for this class of objects are the minimum and maximum spacial points, the number of spacial grid points and an overall amplitude factor for the potential. 
@@ -11,7 +11,6 @@ class Potentials:
         self.xMin = xMin
         self.xMax = xMax
         self.gridpoints = gridpoints
-        #self.xMesh = np.array([self.xMin + i*(self.xMax-self.xMin)/float(self.gridpoints) for i in range(gridpoints+1)])
         self.xMesh=xAR
 
     #The free particle potential simply creates an array of zeros that is the length of our grid points. 
