@@ -208,4 +208,3 @@ class TDSE:
         np.savetxt(self.outputFile + "_Real_eVectors.csv", eigenVectorsRe, delimiter=",")
         np.savetxt(self.outputFile + "_Real_eValues.csv", eigenValuesRe, delimiter=",")
         np.savetxt(self.outputFile + "_Imag_eVectors.csv", eigenVectorsImag, delimiter=",")
-        np.savetxt(self.outputFile + "_Imag_eValues.csv", eigenValuesImag, delimiter=",")

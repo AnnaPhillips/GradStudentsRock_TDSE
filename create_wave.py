@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 #This file create various initialwave functions to be pushed through TDSE.py and defines the xMesh function that potentials.py calls on. 
 
-#xMesh is aarray of points (xmin,xmin+L/gridpoints,.... xmax) that is gridpoints+1 long to capture both beginning and end points. 
+#xMesh is array of points (xmin, xmin+L/gridpoints, ...., xmax) that is gridpoints+1 long to capture both beginning and end points. 
 def xMesh(xMin, xMax, gridpoints):
     return np.array([xMin + i*(xMax-xMin)/gridpoints for i in range(gridpoints+1)])
 
