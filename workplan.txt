@@ -24,11 +24,12 @@ Already done:
 	-analytical solution to square well was added (anna)
 	-analytical solution to harmonic oscilator (anna)
 	-comment python code (Anna)
-
+	-fix eigenstate solver (HARD. Nope. Not at all hard. Reading
+	data into mathematica file wrong :( anna fixed it. )
 
 To do: 
        -readme file
-	-fix eigenstate solver (HARD)
+
 
 
 
